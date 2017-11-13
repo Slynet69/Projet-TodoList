@@ -1,3 +1,5 @@
+
+
 /*jshint eqeqeq:false */
 (function (window) {
 	'use strict';
@@ -39,6 +41,8 @@
 	 *	 // hello: world in their properties
 	 * });
 	 */
+    
+    
 	Store.prototype.find = function (query, callback) {
 		if (!callback) {
 			return;
@@ -75,6 +79,7 @@
 	 * @param {number} id An optional param to enter an ID of an item to update
 	 */
 	Store.prototype.save = function (updateData, callback, id) {
+        console.log('data',updateData, 'id', id, 'callback', callback);
 		var data = JSON.parse(localStorage[this._dbName]);
 		var todos = data.todos;
 
@@ -114,18 +119,22 @@
 		        };
             };
              
-            updateData.id = newId;
-                
-         };
-       
+            updateData.id = parseInt(newId);
+            
+            
             console.table(todos);
 
 			todos.push(updateData);
 			localStorage[this._dbName] = JSON.stringify(data);
 			callback.call(this, [updateData]);
+                
+         };
+       
+        
 		
 	};
 
+    
 	/**
 	 * Will remove an item from the Store based on its ID
 	 *
@@ -167,4 +176,6 @@
 	// Export to window
 	window.app = window.app || {};
 	window.app.Store = Store;
+   
 })(window);
+

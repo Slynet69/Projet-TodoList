@@ -9,6 +9,7 @@
 	 */
 	function Model(storage) {
 		this.storage = storage;
+        console.log(this.storage);
 	}
 
 	/**
@@ -79,6 +80,7 @@
 	 */
 	Model.prototype.remove = function (id, callback) {
 		this.storage.remove(id, callback);
+        
 	};
 
 	/**

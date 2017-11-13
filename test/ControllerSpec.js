@@ -3,7 +3,7 @@
 describe('controller', function () {
 	'use strict';
 
-	var subject, model, view, store;
+	var subject, model, view;
 
 	var setUpModel = function (todos) {
 		model.read.and.callFake(function (query, callback) {
@@ -51,13 +51,17 @@ describe('controller', function () {
 			}
 		};
 	};
+    
+
 
 	beforeEach(function () {
 		model = jasmine.createSpyObj('model', ['read', 'getCount', 'remove', 'create', 'update']);
 		view = createViewStub();
 		subject = new app.Controller(model, view);
-        store = new app.Store();//CHANGES ajout store
+      
 	});
+        
+        
 
 	it('should show entries on start-up', function () {
 			var todo = ['my todo','my todo2','my todo3'];
@@ -212,22 +216,7 @@ describe('controller', function () {
             
 		});
 
-		it('should add a new todo to the model with unique ID', function () {
-			// TODO NEW
-            var todo ='my todo';
-            //todo.id=123;
-            var todo1 = {id: 123, title: 'todo',completed : false};
-            var todo2 = {id: 123, title: 'todo2',completed : false};
-			setUpModel([]);
-            subject.setView('');
-            model.create(todo);            
-            expect(model.storage.save).toHaveBeenCalled;
-                
-            
-		});        
-        
-        
-        
+
         
         
 		it('should add a new todo to the view', function () {
@@ -263,7 +252,20 @@ describe('controller', function () {
 
 			expect(view.render).toHaveBeenCalledWith('clearNewTodo');
 		});
+	
+    
+    		it('should update the element count when a new todo is added ', function () {
+            //CHANGES ajout test pour compteur si ajout todo   
+            var todo = {id: 42, title: 'my todo', completed: false};
+		    setUpModel([todo]);    
+			subject.setView('');
+			                
+			expect(view.render).toHaveBeenCalledWith('updateElementCount', 1);
+		});
 	});
+    
+    
+    
 
 	describe('element removal', function () {
 		it('should remove an entry from the model', function () {
